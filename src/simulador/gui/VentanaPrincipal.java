@@ -23,7 +23,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         initComponents();
         this.miDisco = new DiscoSD(100); 
 
-// 2. Crea el directorio raíz
+// 2. Crea el directorio raíz 
 this.raiz = new Directoria("C:");
 
 // 3. (Opcional) Agrega datos de prueba para ver si funciona
