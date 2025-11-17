@@ -4,9 +4,12 @@
  */
 package simulador.gui;
 
+import javax.swing.JOptionPane;
 import simulador.modelo.Archivo;
+import simulador.modelo.Bloque;
 import simulador.modelo.Directoria;
 import simulador.modelo.DiscoSD;
+import simulador.modelo.NodoSistema;
 
 /**
  *
@@ -54,6 +57,10 @@ jTree1.setModel(this.modeloArbol);
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -85,29 +92,273 @@ jTree1.setModel(this.modeloArbol);
 
         jTabbedPane2.addTab("Tabla de Asignacion", jPanel4);
 
+        jButton1.setText("Crear Directorio");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Crear Archivo");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("Eliminar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton3)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 190, Short.MAX_VALUE)
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 209, Short.MAX_VALUE)
+                        .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(19, 19, 19))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(91, 91, 91)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(37, 37, 37)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(109, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(61, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+// 1. Obtener el nodo que está seleccionado en el árbol
+// getLastSelectedPathComponent() nos da el objeto (Archivo o Directorio) seleccionado
+Object nodoSeleccionado = jTree1.getLastSelectedPathComponent();
+
+// 2. Verificar que haya algo seleccionado Y que sea un Directorio
+// (No podemos crear un directorio dentro de un archivo)
+if (nodoSeleccionado != null && nodoSeleccionado instanceof Directoria) {
+
+    // 3. Si es un Directorio, lo "casteamos" para poder usarlo
+    Directoria directorioPadre = (Directoria) nodoSeleccionado;
+
+    // 4. Pedir el nombre del nuevo directorio al usuario
+    String nombreNuevo = JOptionPane.showInputDialog(this, 
+                                                   "Escribe el nombre del nuevo directorio:", 
+                                                   "Crear Directorio", 
+                                                   JOptionPane.PLAIN_MESSAGE);
+
+    // 5. Verificar que el usuario no haya cancelado o escrito un nombre vacío
+    if (nombreNuevo != null && !nombreNuevo.trim().isEmpty()) {
+
+        // 6. Crear el nuevo Directorio (en nuestra lógica/modelo)
+        Directoria nuevoDir = new Directoria(nombreNuevo.trim());
+
+        // 7. Añadirlo al padre (en nuestra lógica/modelo)
+        directorioPadre.agregarHijo(nuevoDir);
+
+        // 8. ¡EL PASO MÁGICO! Actualizar la Vista (el JTree)
+        // updateUI() le dice al JTree que vuelva a leer todo el modelo y se redibuje
+        jTree1.updateUI();
+
+    }
+} else {
+    // Si no seleccionó nada, o si seleccionó un archivo
+    JOptionPane.showMessageDialog(this, 
+                                "Por favor, selecciona un directorio en el árbol primero.", 
+                                "Error", 
+                                JOptionPane.ERROR_MESSAGE);
+}
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // 1. Obtener el directorio padre seleccionado
+Object nodoSeleccionado = jTree1.getLastSelectedPathComponent();
+if (nodoSeleccionado == null || !(nodoSeleccionado instanceof Directoria)) {
+    JOptionPane.showMessageDialog(this, "Por favor, selecciona un directorio en el árbol primero.", "Error", JOptionPane.ERROR_MESSAGE);
+    return; // Detiene la ejecución
+}
+Directoria directorioPadre = (Directoria) nodoSeleccionado;
+
+// 2. Pedir nombre y TAMAÑO del archivo
+String nombreArchivo = JOptionPane.showInputDialog(this, "Nombre del archivo:", "Crear Archivo", JOptionPane.PLAIN_MESSAGE);
+if (nombreArchivo == null || nombreArchivo.trim().isEmpty()) {
+    return; // Canceló o no escribió nada
+}
+
+// 2.b. Pedimos el TAMAÑO (esto es clave)
+String tamanoStr = JOptionPane.showInputDialog(this, "Tamaño en bloques:", "Crear Archivo", JOptionPane.PLAIN_MESSAGE);
+int tamanoEnBloques;
+try {
+    tamanoEnBloques = Integer.parseInt(tamanoStr);
+    if (tamanoEnBloques <= 0) throw new NumberFormatException();
+} catch (NumberFormatException e) {
+    JOptionPane.showMessageDialog(this, "Tamaño inválido. Debe ser un número positivo.", "Error", JOptionPane.ERROR_MESSAGE);
+    return;
+}
+
+// --- INICIO DE LA LÓGICA DE DISCO ---
+
+// 3. Crear el objeto Archivo (en memoria)
+Archivo nuevoArchivo = new Archivo(nombreArchivo.trim(), tamanoEnBloques);
+int bloquePrevioId = -1;
+int bloqueInicialId = -1;
+
+// 4. Asignar bloques en el disco (el "cerebro" del simulador)
+for (int i = 0; i < tamanoEnBloques; i++) {
+    // 4.1. Buscar un bloque libre en nuestro DiscoSD
+    int bloqueLibreId = miDisco.encontrarBloqueLibre();
+    
+    if (bloqueLibreId == -1) {
+        // ¡DISCO LLENO!
+        JOptionPane.showMessageDialog(this, "¡Error! Disco lleno. No se pudo crear el archivo.", "Disco Lleno", JOptionPane.ERROR_MESSAGE);
+        
+        // ¡Importante! Liberamos los bloques que ya habíamos asignado a este archivo
+        // para que no queden "basura" en el disco.
+        if (bloqueInicialId != -1) {
+            miDisco.liberarCadena(bloqueInicialId);
+        }
+        return; // Detenemos todo
+    }
+    
+    // 4.2. Si encontramos bloque, lo "ocupamos"
+    Bloque bloqueActual = miDisco.getBloque(bloqueLibreId);
+    
+    // El último bloque apunta a -1 (fin de la cadena)
+    bloqueActual.asignar(nuevoArchivo.getNombre(), -1); 
+    
+    // 4.3. Encadenar la lista de bloques
+    if (i == 0) {
+        // Si es el primer bloque, guardamos su ID en el objeto Archivo
+        bloqueInicialId = bloqueLibreId;
+        nuevoArchivo.setBloqueInicial(bloqueInicialId);
+    } else {
+        // Si no es el primero, le decimos al bloque *anterior* que apunte a este nuevo bloque
+        Bloque bloquePrevio = miDisco.getBloque(bloquePrevioId);
+        bloquePrevio.setSiguienteBloque(bloqueLibreId);
+    }
+    
+    // El bloque actual se convierte en el "previo" para la siguiente vuelta del bucle
+    bloquePrevioId = bloqueLibreId;
+}
+
+// 5. Si el bucle terminó sin errores, ¡el archivo se creó en el disco!
+//    Ahora lo agregamos al árbol (modelo)
+directorioPadre.agregarHijo(nuevoArchivo);
+
+// 6. Actualizar la GUI (vista)
+jTree1.updateUI();
+
+// 7. (Avance) En el siguiente paso, aquí llamaremos a las funciones
+//    para actualizar la tabla y los cuadritos de colores.
+//
+// actualizarTablaFAT();
+// actualizarVisualizadorGrafico();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+      // 1. Obtener el nodo que está seleccionado en el árbol
+Object nodoSeleccionado = jTree1.getLastSelectedPathComponent();
+
+// 2. Verificar que haya algo seleccionado
+if (nodoSeleccionado == null) {
+    JOptionPane.showMessageDialog(this, "Por favor, selecciona un archivo o directorio para eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
+    return;
+}
+
+// 3. No se puede eliminar la raíz "C:"
+if (nodoSeleccionado instanceof Directoria && ((Directoria) nodoSeleccionado).getPadre() == null) {
+    JOptionPane.showMessageDialog(this, "No se puede eliminar el directorio raíz (C:).", "Error", JOptionPane.ERROR_MESSAGE);
+    return;
+}
+
+// 4. Pedir confirmación antes de borrar
+int confirmacion = JOptionPane.showConfirmDialog(this, 
+                                             "¿Estás seguro de que quieres eliminar '" + nodoSeleccionado + "'?", 
+                                             "Confirmar Eliminación", 
+                                             JOptionPane.YES_NO_OPTION, 
+                                             JOptionPane.WARNING_MESSAGE);
+
+if (confirmacion != JOptionPane.YES_OPTION) {
+    return; // Si no confirma, no hacemos nada
+}
+
+// 5. Lógica de eliminación
+Directoria padre = ((NodoSistema) nodoSeleccionado).getPadre();
+
+// --- CASO A: Es un Archivo ---
+if (nodoSeleccionado instanceof Archivo) {
+    Archivo archivoAEliminar = (Archivo) nodoSeleccionado;
+    
+    // 5.1. Liberamos los bloques en el disco
+    int bloqueInicial = archivoAEliminar.getBloqueInicial();
+    if (bloqueInicial != -1) {
+        miDisco.liberarCadena(bloqueInicial);
+    }
+    
+    // 5.2. Lo quitamos del árbol (modelo)
+    padre.eliminarHijo(archivoAEliminar);
+
+// --- CASO B: Es un Directorio ---
+} else if (nodoSeleccionado instanceof Directoria) {
+    Directoria dirAEliminar = (Directoria) nodoSeleccionado;
+    
+    // 5.3. Verificamos si el directorio está vacío
+    if (dirAEliminar.getCantidadHijos() == 0) {
+        // Si está vacío, lo quitamos del árbol (modelo)
+        padre.eliminarHijo(dirAEliminar);
+    } else {
+        // Si no está vacío, mostramos un error
+        JOptionPane.showMessageDialog(this, "No se puede eliminar un directorio que no está vacío.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}
+
+// 6. Actualizar la GUI (vista)
+jTree1.updateUI();
+
+// 7. (Avance) Aquí también actualizaremos la tabla y los cuadritos
+// actualizarTablaFAT();
+// actualizarVisualizadorGrafico();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -145,6 +396,10 @@ jTree1.setModel(this.modeloArbol);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
