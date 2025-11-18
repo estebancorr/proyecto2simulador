@@ -8,6 +8,6 @@ package simulador.estructuras;
  *
  * @author estab
  */
-public class MiCola {
+public class MiCola<T> {
     
 }

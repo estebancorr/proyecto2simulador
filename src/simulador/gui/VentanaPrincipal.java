@@ -5,11 +5,14 @@
 package simulador.gui;
 
 import javax.swing.JOptionPane;
+import simulador.estructuras.MiCola;
+import simulador.gui.MiArbolModelo;
 import simulador.modelo.Archivo;
 import simulador.modelo.Bloque;
-import simulador.modelo.Directoria;
+import simulador.modelo.Directoria; // ¡Ahora sí la encontrará!
 import simulador.modelo.DiscoSD;
 import simulador.modelo.NodoSistema;
+import simulador.modelo.Proceso;
 
 /**
  *
@@ -19,14 +22,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private Directoria raiz;
     private DiscoSD miDisco;
     private MiArbolModelo modeloArbol;
-    /**
-     * Creates new form VentanaPrincipal
-     */
+    private javax.swing.JLabel[] etiquetasBloques;
+    private MiCola<Proceso> colaDeProcesos;
     public VentanaPrincipal() {
         initComponents();
-        this.miDisco = new DiscoSD(100); 
-
-// 2. Crea el directorio raíz 
+        this.colaDeProcesos = new MiCola<>();
 this.raiz = new Directoria("C:");
 
 // 3. (Opcional) Agrega datos de prueba para ver si funciona
@@ -38,9 +38,23 @@ dirUsuario.agregarHijo(new Archivo("documento.pdf", 5));
 // 4. Crea el "Traductor" (TreeModel) pasándole tu raíz
 this.modeloArbol = new MiArbolModelo(this.raiz);
 
-// 5. Conecta el traductor (modelo) al JTree de tu vista
-//    (El jTree1 es el nombre que NetBeans le dio por defecto)
+
 jTree1.setModel(this.modeloArbol);
+actualizarTablaFAT();
+this.etiquetasBloques = new javax.swing.JLabel[miDisco.getNumBloques()];
+
+
+for (int i = 0; i < miDisco.getNumBloques(); i++) {
+    javax.swing.JLabel etiquetaCuadro = new javax.swing.JLabel();
+
+    etiquetaCuadro.setOpaque(true); 
+    etiquetaCuadro.setBackground(java.awt.Color.GREEN); 
+    etiquetaCuadro.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.BLACK)); 
+    this.etiquetasBloques[i] = etiquetaCuadro; 
+    this.jPanel3.add(etiquetaCuadro);  
+    
+}
+actualizarVisualizadorGrafico();
     }
 
     /**
@@ -55,8 +69,10 @@ jTree1.setModel(this.modeloArbol);
         jScrollPane1 = new javax.swing.JScrollPane();
         jTree1 = new javax.swing.JTree();
         jTabbedPane2 = new javax.swing.JTabbedPane();
-        jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jPanel3 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -66,31 +82,48 @@ jTree1.setModel(this.modeloArbol);
 
         jScrollPane1.setViewportView(jTree1);
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 39, Short.MAX_VALUE)
-        );
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "ID", "Propietario", "Siguiente"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class
+            };
 
-        jTabbedPane2.addTab("Visualizador de Disco", jPanel3);
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 39, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jTabbedPane2.addTab("Tabla de Asignacion", jPanel4);
+
+        jPanel3.setLayout(new java.awt.GridLayout(10, 10));
+        jTabbedPane2.addTab("Visualizador de Disco", jPanel3);
 
         jButton1.setText("Crear Directorio");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -118,11 +151,16 @@ jTree1.setModel(this.modeloArbol);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton3))))
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -130,9 +168,9 @@ jTree1.setModel(this.modeloArbol);
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addComponent(jButton3)
                 .addContainerGap())
         );
@@ -143,26 +181,28 @@ jTree1.setModel(this.modeloArbol);
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 209, Short.MAX_VALUE)
-                        .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(19, 19, 19))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 183, Short.MAX_VALUE)
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(67, 67, 67))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(49, 49, 49)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(37, 37, 37)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(29, 29, 29)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
 
         pack();
@@ -287,6 +327,8 @@ directorioPadre.agregarHijo(nuevoArchivo);
 
 // 6. Actualizar la GUI (vista)
 jTree1.updateUI();
+actualizarTablaFAT();
+actualizarVisualizadorGrafico();
 
 // 7. (Avance) En el siguiente paso, aquí llamaremos a las funciones
 //    para actualizar la tabla y los cuadritos de colores.
@@ -354,12 +396,48 @@ if (nodoSeleccionado instanceof Archivo) {
 
 // 6. Actualizar la GUI (vista)
 jTree1.updateUI();
+actualizarTablaFAT();
+actualizarVisualizadorGrafico();
 
 // 7. (Avance) Aquí también actualizaremos la tabla y los cuadritos
 // actualizarTablaFAT();
 // actualizarVisualizadorGrafico();
     }//GEN-LAST:event_jButton3ActionPerformed
-
+    private void actualizarTablaFAT() {
+        // 1. Obtenemos el "modelo" de la tabla que diseñamos
+        //    (Tu tabla se llama jTable1, lo cual es correcto)
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTable1.getModel();
+        
+        // 2. Borramos todas las filas viejas para no duplicar datos
+        model.setRowCount(0); 
+        
+        // 3. Recorremos el array de bloques de nuestro disco
+        //    (Tu disco se llama miDisco, lo cual es correcto)
+        for (Bloque b : miDisco.getBloques()) {
+            
+            // 4. Añadimos una fila nueva a la tabla por cada bloque
+            model.addRow(new Object[]{
+                b.getId(),
+                b.getPropietario(),
+                b.getSiguienteBloque()
+            });
+        }
+    }
+    
+    private void actualizarVisualizadorGrafico() {
+       
+        for (int i = 0; i < miDisco.getNumBloques(); i++) {
+            
+            // Verificamos si el bloque está ocupado
+            if (miDisco.getBloque(i).isOcupado()) {
+                // Si está ocupado, pintamos el cuadrito de ROJO
+                etiquetasBloques[i].setBackground(java.awt.Color.RED);
+            } else {
+                // Si está libre, lo pintamos de VERDE
+                etiquetasBloques[i].setBackground(java.awt.Color.GREEN);
+            }
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -403,7 +481,9 @@ jTree1.updateUI();
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTree jTree1;
     // End of variables declaration//GEN-END:variables
 }
