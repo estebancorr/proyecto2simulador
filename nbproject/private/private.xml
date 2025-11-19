@@ -3,17 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/estab/Desktop/simulador/proyectosimulador/SimuladorOS/src/simulador/modelo/Bloque.java</file>
-            <file>file:/C:/Users/estab/Desktop/simulador/proyectosimulador/SimuladorOS/src/simulador/modelo/Archivo.java</file>
             <file>file:/C:/Users/estab/Desktop/simulador/proyectosimulador/SimuladorOS/src/simulador/gui/MiArbolModelo.java</file>
-            <file>file:/C:/Users/estab/Desktop/simulador/proyectosimulador/SimuladorOS/src/simulador/modelo/Directoria.java</file>
-            <file>file:/C:/Users/estab/Desktop/simulador/proyectosimulador/SimuladorOS/src/simulador/estructuras/Nodo.java</file>
             <file>file:/C:/Users/estab/Desktop/simulador/proyectosimulador/SimuladorOS/src/simulador/modelo/Proceso.java</file>
             <file>file:/C:/Users/estab/Desktop/simulador/proyectosimulador/SimuladorOS/nbproject/project.properties</file>
-            <file>file:/C:/Users/estab/Desktop/simulador/proyectosimulador/SimuladorOS/src/simulador/estructuras/MiCola.java</file>
             <file>file:/C:/Users/estab/Desktop/simulador/proyectosimulador/SimuladorOS/src/simulador/modelo/NodoSistema.java</file>
-            <file>file:/C:/Users/estab/Desktop/simulador/proyectosimulador/SimuladorOS/src/simulador/modelo/DiscoSD.java</file>
             <file>file:/C:/Users/estab/Desktop/simulador/proyectosimulador/SimuladorOS/src/simulador/gui/VentanaPrincipal.java</file>
+            <file>file:/C:/Users/estab/Desktop/simulador/proyectosimulador/SimuladorOS/src/simulador/logica/GestorDatos.java</file>
+            <file>file:/C:/Users/estab/Desktop/simulador/proyectosimulador/SimuladorOS/src/simulador/modelo/Bloque.java</file>
+            <file>file:/C:/Users/estab/Desktop/simulador/proyectosimulador/SimuladorOS/src/simulador/modelo/Archivo.java</file>
+            <file>file:/C:/Users/estab/Desktop/simulador/proyectosimulador/SimuladorOS/src/simulador/modelo/Directoria.java</file>
+            <file>file:/C:/Users/estab/Desktop/simulador/proyectosimulador/SimuladorOS/src/simulador/estructuras/Nodo.java</file>
+            <file>file:/C:/Users/estab/Desktop/simulador/proyectosimulador/SimuladorOS/src/simulador/estructuras/MiCola.java</file>
+            <file>file:/C:/Users/estab/Desktop/simulador/proyectosimulador/SimuladorOS/src/simulador/modelo/DiscoSD.java</file>
             <file>file:/C:/Users/estab/Desktop/simulador/proyectosimulador/SimuladorOS/src/simulador/estructuras/MiListaEnlazada.java</file>
         </group>
     </open-files>

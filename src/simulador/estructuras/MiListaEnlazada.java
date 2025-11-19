@@ -5,7 +5,8 @@ package simulador.estructuras;
  * Implementación propia de una Lista Enlazada simple.
  * Prohibido usar ArrayList
  */
-public class MiListaEnlazada<T> {
+
+public class MiListaEnlazada<T> implements java.io.Serializable {
     private Nodo<T> cabeza;
     private int tamano;
 

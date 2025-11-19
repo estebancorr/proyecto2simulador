@@ -5,7 +5,7 @@ package simulador.modelo;
  * Representa un Archivo.
  * Hereda de NodoSistema y añade propiedades de archivo.
  */
-public class Archivo extends NodoSistema {
+public class Archivo extends NodoSistema implements java.io.Serializable {
     
     private int tamanoEnBloques;
     private int bloqueInicial; // Dirección del primer bloque

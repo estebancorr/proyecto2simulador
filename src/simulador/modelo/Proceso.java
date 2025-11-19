@@ -1,6 +1,6 @@
 package simulador.modelo;
 
-public class Proceso {
+public class Proceso implements java.io.Serializable {
     private String nombre;
     private Archivo archivoQueUsa;
     private int tiempoRestante;

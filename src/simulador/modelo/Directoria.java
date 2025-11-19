@@ -8,7 +8,7 @@ import simulador.estructuras.MiListaEnlazada;
  * Representa un Directorio (una carpeta).
  * Contiene una lista enlazada de hijos (Archivos o Directorios).
  */
-public class Directoria extends NodoSistema {
+public class Directoria extends NodoSistema implements java.io.Serializable {
     
     // Aquí usamos tu lista enlazada personalizada
     private MiListaEnlazada<NodoSistema> hijos;
@@ -44,4 +44,16 @@ public class Directoria extends NodoSistema {
     public MiListaEnlazada<NodoSistema> getHijos() {
         return hijos;
     }
+public Archivo buscarArchivo(String nombreBuscado) {
+    for (int i = 0; i < this.hijos.getTamano(); i++) {
+        NodoSistema hijo = this.hijos.get(i);
+        if (hijo instanceof Archivo && hijo.getNombre().equalsIgnoreCase(nombreBuscado)) {
+            return (Archivo) hijo;
+        } else if (hijo instanceof Directoria) {
+            Archivo encontrado = ((Directoria) hijo).buscarArchivo(nombreBuscado);
+            if (encontrado != null) return encontrado;
+        }
+    }
+    return null;
+}
 }

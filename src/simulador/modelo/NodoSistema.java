@@ -5,7 +5,7 @@ package simulador.modelo;
  * Clase base abstracta para Archivos y Directorios.
  * Esto nos permite tratarlos de forma polimórfica en el JTree.
  */
-public abstract class NodoSistema {
+public abstract class NodoSistema implements java.io.Serializable {
     protected String nombre;
     protected Directoria padre;
 

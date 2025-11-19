@@ -23,10 +23,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private DiscoSD miDisco;
     private MiArbolModelo modeloArbol;
     private javax.swing.JLabel[] etiquetasBloques;
+    private int posicionCabezal = 0; 
+    private boolean direccionSubida = true;
     private MiCola<Proceso> colaDeProcesos;
     public VentanaPrincipal() {
         initComponents();
-        this.colaDeProcesos = new MiCola<>();
+        this.miDisco = new DiscoSD(100);
+        
+this.colaDeProcesos = new MiCola<>();
 this.raiz = new Directoria("C:");
 
 // 3. (Opcional) Agrega datos de prueba para ver si funciona
@@ -73,10 +77,20 @@ actualizarVisualizadorGrafico();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        cboxPolitica = new javax.swing.JComboBox<>();
         jPanel1 = new javax.swing.JPanel();
+        jButton3 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        cboxModo = new javax.swing.JComboBox<>();
+        btnRenombrar = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
+        btnCargar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -109,14 +123,14 @@ actualizarVisualizadorGrafico();
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 463, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -124,6 +138,80 @@ actualizarVisualizadorGrafico();
 
         jPanel3.setLayout(new java.awt.GridLayout(10, 10));
         jTabbedPane2.addTab("Visualizador de Disco", jPanel3);
+
+        jButton4.setText("Crear Proceso");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setText("Ejecutar Ciclo");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane3.setViewportView(jTextArea1);
+
+        cboxPolitica.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "FIFO", "SSTF", "SCAN", "C-SCAN" }));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cboxPolitica, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(62, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jButton5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cboxPolitica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(72, 72, 72))
+        );
+
+        jTabbedPane2.addTab("Gestor de Procesos", jPanel2);
+
+        jButton3.setText("Eliminar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 165, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(jButton3)
+                .addContainerGap(58, Short.MAX_VALUE))
+        );
 
         jButton1.setText("Crear Directorio");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -139,41 +227,33 @@ actualizarVisualizadorGrafico();
             }
         });
 
-        jButton3.setText("Eliminar");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        cboxModo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Administrador", "Usuario" }));
+        cboxModo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                cboxModoActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton3))))
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                .addComponent(jButton3)
-                .addContainerGap())
-        );
+        btnRenombrar.setText("Renombrar");
+        btnRenombrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRenombrarActionPerformed(evt);
+            }
+        });
+
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+
+        btnCargar.setText("Cargar");
+        btnCargar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCargarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -181,34 +261,65 @@ actualizarVisualizadorGrafico();
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 183, Short.MAX_VALUE)
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(67, 67, 67))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(49, 49, 49)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cboxModo, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jButton2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnRenombrar))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btnCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(0, 79, Short.MAX_VALUE)))
+                .addGap(18, 18, 18)
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(cboxModo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(9, 9, 9)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2)
+                    .addComponent(btnRenombrar))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(29, 29, 29)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(56, Short.MAX_VALUE))
+                        .addGap(1, 1, 1)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnGuardar)
+                            .addComponent(btnCargar))))
+                .addContainerGap(98, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+String modo = cboxModo.getSelectedItem().toString();
+    if (modo.equals("Usuario")) {
+        JOptionPane.showMessageDialog(this, "Error: Permisos insuficientes. Solo el Administrador puede crear directorios.", "Acceso Denegado", JOptionPane.WARNING_MESSAGE);
+        return; // Detiene la ejecución aquí
+    }
 // 1. Obtener el nodo que está seleccionado en el árbol
 // getLastSelectedPathComponent() nos da el objeto (Archivo o Directorio) seleccionado
 Object nodoSeleccionado = jTree1.getLastSelectedPathComponent();
@@ -251,7 +362,12 @@ if (nodoSeleccionado != null && nodoSeleccionado instanceof Directoria) {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // 1. Obtener el directorio padre seleccionado
+// --- CANDADO DE SEGURIDAD ---
+    if (cboxModo.getSelectedItem().toString().equals("Usuario")) {
+        JOptionPane.showMessageDialog(this, "Error: Los usuarios no pueden crear archivos en el disco.", "Acceso Denegado", JOptionPane.WARNING_MESSAGE);
+        return;
+    }        
+// 1. Obtener el directorio padre seleccionado
 Object nodoSeleccionado = jTree1.getLastSelectedPathComponent();
 if (nodoSeleccionado == null || !(nodoSeleccionado instanceof Directoria)) {
     JOptionPane.showMessageDialog(this, "Por favor, selecciona un directorio en el árbol primero.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -338,7 +454,11 @@ actualizarVisualizadorGrafico();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-      // 1. Obtener el nodo que está seleccionado en el árbol
+    if (cboxModo.getSelectedItem().toString().equals("Usuario")) {
+        JOptionPane.showMessageDialog(this, "Error: No tienes permiso para eliminar archivos.", "Acceso Denegado", JOptionPane.WARNING_MESSAGE);
+        return;
+    }      
+// 1. Obtener el nodo que está seleccionado en el árbol
 Object nodoSeleccionado = jTree1.getLastSelectedPathComponent();
 
 // 2. Verificar que haya algo seleccionado
@@ -403,6 +523,256 @@ actualizarVisualizadorGrafico();
 // actualizarTablaFAT();
 // actualizarVisualizadorGrafico();
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        if (this.colaDeProcesos.estaVacia()) {
+            jTextArea1.append("--- CPU Ociosa (Cola vacía) ---\n");
+            return;
+        }
+        // 1. USAMOS EL PLANIFICADOR PARA ELEGIR EL PROCESO
+        // (Esto reemplaza al simple desencolar)
+        Proceso p = seleccionarProcesoSegunPolitica();
+
+        if (p == null) return; // Seguridad
+
+        // 2. Actualizamos la posición del cabezal (Simulación del movimiento)
+        int bloqueDestino = p.getArchivoQueUsa().getBloqueInicial();
+        this.posicionCabezal = bloqueDestino;
+
+        // 3. Ejecutar ciclo
+        p.ejecutarCiclo();
+
+        // Log visual con detalles del disco
+        jTextArea1.append("[CPU] Ejecutando: " + p.getNombre()
+            + " | Archivo en Bloque: " + bloqueDestino
+            + " | Algoritmo: " + cboxPolitica.getSelectedItem() + "\n");
+
+        // 4. Verificar si terminó
+        if (p.haTerminado()) {
+            jTextArea1.append("   ★ [FIN] " + p.getNombre() + " ha terminado.\n");
+        } else {
+            // Si no terminó, vuelve a la cola
+            this.colaDeProcesos.encolar(p);
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        String nombreProc = JOptionPane.showInputDialog(this, "Nombre del proceso (ej. 'Word'):");
+        if (nombreProc == null || nombreProc.trim().isEmpty()) return;
+
+        String nombreArch = JOptionPane.showInputDialog(this, "Nombre del archivo a usar:");
+        if (nombreArch == null || nombreArch.trim().isEmpty()) return;
+
+        // 2. Buscar el archivo en el árbol (Usando el método que agregamos en Directoria)
+        Archivo archivo = raiz.buscarArchivo(nombreArch.trim());
+
+        if (archivo == null) {
+            JOptionPane.showMessageDialog(this, "El archivo no existe. Créalo primero.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // 3. Crear el proceso (Asumimos 5 ciclos de duración por defecto)
+        Proceso p = new Proceso(nombreProc, archivo, 5);
+
+        // 4. Añadirlo a la cola
+        this.colaDeProcesos.encolar(p);
+
+        // 5. Mostrar en el log (Asegúrate de que tu TextArea se llame jTextArea1 o cámbialo aquí)
+        jTextArea1.append(">> [NUEVO] Proceso " + p.getNombre() + " encolado.\n");        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void btnRenombrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRenombrarActionPerformed
+    // 1. SEGURIDAD: Verificar modo Administrador
+    if (cboxModo.getSelectedItem().toString().equals("Usuario")) {
+        JOptionPane.showMessageDialog(this, "Error: Solo el Administrador puede renombrar archivos.", "Acceso Denegado", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    // 2. Obtener selección
+    Object nodoSeleccionado = jTree1.getLastSelectedPathComponent();
+    if (nodoSeleccionado == null) {
+        JOptionPane.showMessageDialog(this, "Selecciona un archivo o directorio primero.");
+        return;
+    }
+    
+    // No se puede renombrar el disco C: (Raíz)
+    simulador.modelo.NodoSistema nodo = (simulador.modelo.NodoSistema) nodoSeleccionado;
+    if (nodo.getPadre() == null) {
+        JOptionPane.showMessageDialog(this, "No puedes renombrar la raíz.");
+        return;
+    }
+
+    // 3. Pedir nuevo nombre
+    String nuevoNombre = JOptionPane.showInputDialog(this, "Nuevo nombre para '" + nodo.toString() + "':", nodo.toString());
+    
+    if (nuevoNombre != null && !nuevoNombre.trim().isEmpty()) {
+        // 4. Aplicar cambio
+        nodo.setNombre(nuevoNombre.trim());
+        
+        // 5. Actualizar visuales
+        jTree1.updateUI();           // Refresca el árbol
+        actualizarTablaFAT();        // Refresca la tabla
+    }
+    }//GEN-LAST:event_btnRenombrarActionPerformed
+
+    private void cboxModoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxModoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cboxModoActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+                                         
+    // Solo Admin puede guardar
+    if (cboxModo.getSelectedItem().toString().equals("Usuario")) {
+         JOptionPane.showMessageDialog(this, "Solo Admin puede guardar.");
+         return;
+    }
+    // Llamamos a nuestra clase nueva
+    simulador.logica.GestorDatos.guardarSistema(this.raiz, this.miDisco);
+
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarActionPerformed
+                                           
+    Object[] datos = simulador.logica.GestorDatos.cargarSistema();
+    
+    if (datos != null) {
+        // Recuperamos los objetos
+        this.raiz = (simulador.modelo.Directoria) datos[0];
+        this.miDisco = (simulador.modelo.DiscoSD) datos[1];
+        
+        // IMPORTANTÍSIMO: Reconectar el modelo visual
+        this.modeloArbol = new simulador.gui.MiArbolModelo(this.raiz);
+        jTree1.setModel(this.modeloArbol);
+        
+        // Actualizar visuales
+        jTree1.updateUI();
+        actualizarTablaFAT();
+        actualizarVisualizadorGrafico();
+    }
+
+    }//GEN-LAST:event_btnCargarActionPerformed
+/**
+ * Método auxiliar que vuelca la cola en una lista para poder buscar.
+ */
+private simulador.estructuras.MiListaEnlazada<simulador.modelo.Proceso> obtenerProcesosEnEspera() {
+    simulador.estructuras.MiListaEnlazada<simulador.modelo.Proceso> listaTemporal = new simulador.estructuras.MiListaEnlazada<>();
+    
+    // Vaciamos la cola y llenamos la lista temporal
+    while (!colaDeProcesos.estaVacia()) {
+        listaTemporal.agregar(colaDeProcesos.desencolar());
+    }
+    return listaTemporal;
+}
+    private simulador.modelo.Proceso seleccionarProcesoSegunPolitica() {
+    // 1. Pasamos todo a una lista para poder buscar
+    simulador.estructuras.MiListaEnlazada<simulador.modelo.Proceso> lista = obtenerProcesosEnEspera();
+    
+    if (lista.getTamano() == 0) return null;
+
+    // Asegúrate de usar el nombre correcto de tu variable (jComboBox1, cboxPolitica, etc.)
+    String politica = cboxPolitica.getSelectedItem().toString(); 
+    simulador.modelo.Proceso elegido = null;
+
+    // --- ALGORITMO FIFO ---
+    if (politica.equals("FIFO")) {
+        elegido = lista.get(0);
+    } 
+    // --- ALGORITMO SSTF ---
+    else if (politica.equals("SSTF")) {
+        int menorDistancia = Integer.MAX_VALUE;
+        for (int i = 0; i < lista.getTamano(); i++) {
+            simulador.modelo.Proceso p = lista.get(i);
+            int dist = Math.abs(p.getArchivoQueUsa().getBloqueInicial() - this.posicionCabezal);
+            if (dist < menorDistancia) {
+                menorDistancia = dist;
+                elegido = p;
+            }
+        }
+    }
+    // --- ALGORITMO SCAN ---
+    else if (politica.equals("SCAN")) {
+        simulador.estructuras.MiListaEnlazada<simulador.modelo.Proceso> arriba = new simulador.estructuras.MiListaEnlazada<>();
+        simulador.estructuras.MiListaEnlazada<simulador.modelo.Proceso> abajo = new simulador.estructuras.MiListaEnlazada<>();
+
+        for (int i = 0; i < lista.getTamano(); i++) {
+            simulador.modelo.Proceso p = lista.get(i);
+            if (p.getArchivoQueUsa().getBloqueInicial() >= this.posicionCabezal) {
+                arriba.agregar(p);
+            } else {
+                abajo.agregar(p);
+            }
+        }
+
+        simulador.estructuras.MiListaEnlazada<simulador.modelo.Proceso> listaAUsar;
+        if (direccionSubida) {
+            if (arriba.getTamano() > 0) listaAUsar = arriba;
+            else { direccionSubida = false; listaAUsar = abajo; }
+        } else {
+            if (abajo.getTamano() > 0) listaAUsar = abajo;
+            else { direccionSubida = true; listaAUsar = arriba; }
+        }
+
+        if (listaAUsar.getTamano() > 0) {
+            int menorDistancia = Integer.MAX_VALUE;
+            for (int i = 0; i < listaAUsar.getTamano(); i++) {
+                simulador.modelo.Proceso p = listaAUsar.get(i);
+                int dist = Math.abs(p.getArchivoQueUsa().getBloqueInicial() - this.posicionCabezal);
+                if (dist < menorDistancia) {
+                    menorDistancia = dist;
+                    elegido = p;
+                }
+            }
+        }
+    }
+    // --- ALGORITMO C-SCAN ---
+    else { 
+        simulador.estructuras.MiListaEnlazada<simulador.modelo.Proceso> arribaC = new simulador.estructuras.MiListaEnlazada<>();
+        simulador.estructuras.MiListaEnlazada<simulador.modelo.Proceso> abajoC = new simulador.estructuras.MiListaEnlazada<>();
+
+        for (int i = 0; i < lista.getTamano(); i++) {
+            simulador.modelo.Proceso p = lista.get(i);
+            if (p.getArchivoQueUsa().getBloqueInicial() >= this.posicionCabezal) {
+                arribaC.agregar(p);
+            } else {
+                abajoC.agregar(p);
+            }
+        }
+
+        simulador.estructuras.MiListaEnlazada<simulador.modelo.Proceso> listaAUsarC;
+        int puntoRef;
+        if (arribaC.getTamano() > 0) {
+            listaAUsarC = arribaC;
+            puntoRef = this.posicionCabezal;
+        } else {
+            listaAUsarC = abajoC;
+            puntoRef = 0;
+        }
+
+        if (listaAUsarC.getTamano() > 0) {
+            int menorDistancia = Integer.MAX_VALUE;
+            for (int i = 0; i < listaAUsarC.getTamano(); i++) {
+                simulador.modelo.Proceso p = listaAUsarC.get(i);
+                int dist = Math.abs(p.getArchivoQueUsa().getBloqueInicial() - puntoRef);
+                if (dist < menorDistancia) {
+                    menorDistancia = dist;
+                    elegido = p;
+                }
+            }
+        }
+        if (elegido == null && lista.getTamano() > 0) elegido = lista.get(0);
+    }
+
+    // --- RECONSTRUCCIÓN DE LA COLA ---
+    for (int i = 0; i < lista.getTamano(); i++) {
+        simulador.modelo.Proceso p = lista.get(i);
+        if (elegido != null && !p.equals(elegido)) {
+            colaDeProcesos.encolar(p);
+        }
+    }
+    
+    return elegido;
+}
+    
     private void actualizarTablaFAT() {
         // 1. Obtenemos el "modelo" de la tabla que diseñamos
         //    (Tu tabla se llama jTable1, lo cual es correcto)
@@ -474,16 +844,26 @@ actualizarVisualizadorGrafico();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCargar;
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnRenombrar;
+    private javax.swing.JComboBox<String> cboxModo;
+    private javax.swing.JComboBox<String> cboxPolitica;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTree jTree1;
     // End of variables declaration//GEN-END:variables
 }

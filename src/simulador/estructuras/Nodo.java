@@ -4,7 +4,7 @@ package simulador.estructuras;
 /**
  * Nodo genérico para usar en listas enlazadas y colas.
  */
-public class Nodo<T> {
+public class Nodo<T> implements java.io.Serializable {
     private T dato;
     private Nodo<T> siguiente;
 

@@ -4,7 +4,7 @@ package simulador.modelo;
 /**
  * Simula el Disco SD (Tarjeta SD) como un conjunto de bloques.
  */
-public class DiscoSD {
+public class DiscoSD implements java.io.Serializable {
     
     private Bloque[] bloques;
     private int numBloques;

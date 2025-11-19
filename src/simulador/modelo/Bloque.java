@@ -5,7 +5,7 @@ package simulador.modelo;
  * Representa un solo bloque en el DiscoSD.
  * Sabe si está ocupado y cuál es el siguiente bloque en la cadena.
  */
-public class Bloque {
+public class Bloque implements java.io.Serializable {
     private int id;
     private boolean ocupado;
     private int siguienteBloque; // ID del siguiente bloque en la cadena
